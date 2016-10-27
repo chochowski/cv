@@ -19,6 +19,7 @@
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
 \RequirePackage{graphicx}
+\RequirePackage{titlesec}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -42,9 +43,15 @@
 
 \setlength{\parindent}{0pt} % Disable paragraph indentation
 
-\newfontfamily\bodyfont[]{Roboto}
-\newfontfamily\thinfont[]{Roboto Light}
+%\newfontfamily\bodyfont[]{Roboto}
+%\newfontfamily\thinfont[]{Roboto Light}
+%\newfontfamily\headingfont[]{Raleway}
+
+\newfontfamily\bodyfont[]{Lato}
+\newfontfamily\thinfont[]{Lato Light}
 \newfontfamily\headingfont[]{Raleway}
+\newfontfamily\sidefont[]{Open Sans}
+\newfontfamily\sectiontitlefont[]{Open Sans Semibold}
 
 %----------------------------------------------------------------------------------------
 %	 SIDEBAR DEFINITIONS
@@ -56,11 +63,11 @@
 \newlength\sidewidth
 \setlength{\sidewidth}{6cm}
 
-\newcommand{\profilesection}[1]{\vspace{10pt}{\begin{center} \color{white} \Large \thinfont{#1}\end{center}}\vspace{10pt}}
+\newcommand{\sidesection}[1]{\vspace{10pt}{\begin{center} \color{white} \Large \thinfont{#1}\end{center}}\vspace{10pt}}
 
-\newcommand{\sidelineseparator}[1]{\vspace{8pt}{\begin{center} \rule[0.15\baselineskip]{#1}{1pt}\end{center}}}
+\newcommand{\sidelineseparator}[1]{\vspace{8pt}{\begin{center} \rule[0.15\baselineskip]{#1}{0.5pt}\end{center}}}
 
-\newcommand{\lineseparator}[1]{\vspace{8pt}{\begin{center} \color{gray}\rule[0.15\baselineskip]{#1}{1pt}\end{center}}\vspace{8pt}}
+\newcommand{\lineseparator}{\vspace{8pt}\noindent\rule[0.5ex]{\linewidth}{1pt}\vspace{8pt}}
 
 % Define custom commands for CV info
 \newcommand{\cvdate}[1]{\renewcommand{\cvdate}{#1}}
@@ -73,7 +80,7 @@
 \newcommand{\cvname}[1]{\renewcommand{\cvname}{#1}}
 \newcommand{\cvjobtitle}[1]{\renewcommand{\cvjobtitle}{#1}}
 
-\newcommand{\contactelement}[2]{\color{white}#1\\\color{gray}#2\\\vspace{5pt}}
+\newcommand{\contactelement}[2]{\color{white}\thinfont{#1}\\\color{gray}\bodyfont{#2}\\\vspace{5pt}}
 
 % Command for printing the contact information icons
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
@@ -120,48 +127,29 @@
 	\color{white}		
 		%------------------------------------------------
 		
-%		\begin{center}
-%			\begin{tikzpicture}
-%				\node[anchor=north west, inner sep=0pt, outer sep=0pt, minimum width=\sidewidth] at (0,0) {\includegraphics[width=\sidewidth]{\profilepic}};
-%			\end{tikzpicture}
-%		\end{center}
-
-		%------------------------------------------------
-
-		\profilesection{ABOUT ME}
+		\sidesection{ABOUT ME}
 			
-		\begin{flushleft}
-%			\begingroup
-%			\leftskip0.5cm
-%			\rightskip\leftskip
-			\bodyfont
-			\aboutme
-%			\par
-%			\endgroup
-		\end{flushleft}
+%		\begin{justify}
+		\sidefont \parbox{\linewidth}{\aboutme}
+%		\end{justify}
 		
 		\sidelineseparator{4.8cm}
 		%------------------------------------------------
 
-		\profilesection{CONTACT ME}
+		\sidesection{CONTACT ME}
 			
 		\begin{flushleft}
-%			\begingroup
-%			\leftskip0.5cm
-%			\rightskip\leftskip
 			\bodyfont
 			\contactelement{Phone}{\cvnumberphone}
 			\contactelement{Address}{\cvaddress}
 			\contactelement{Email}{\cvmail}
 			\contactelement{Website}{\cvsite}
-%			\par
-%			\endgroup
 		\end{flushleft}
 		
 		%------------------------------------------------
 %		\sidelineseparator
 
-%		\profilesection{Skills}{0cm}
+%		\sidesection{Skills}{0cm}
 %
 %		\skills
 %		\skillstext
@@ -173,15 +161,21 @@
 	\end{textblock}
 }
 
-
-\renewcommand{\section}[1]{
-	{%
-		\color{black}%
-		\vspace{1pt}%
-		\Large\bodyfont{#1}%
-		\vspace{1pt}%
-	}
-}
+\titleformat{\section}         % Customise the \section command 
+  {\color{black}\large\scshape\raggedright\sectiontitlefont} % Make the \section headers large (\Large),
+                               % small capitals (\scshape) and left aligned (\raggedright)
+  {}{0em}                      % Can be used to give a prefix to all sections, like 'Section ...'
+  {}                           % Can be used to insert code before the heading
+  []
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+%\renewcommand{\section}[1]{
+%	{%
+%		\color{black}%
+%		\vspace{1pt}%
+%		\large\sectiontitlefont{#1}%
+%		\vspace{1pt}%
+%	}
+%}
 
 %----------------------------------------------------------------------------------------
 %	 LONG LIST ENVIRONMENT
@@ -191,20 +185,20 @@
 
 % New environment for the long list
 \newenvironment{twenty}{%
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}%
 	\bodyfont%
-	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
 }{%
 	\end{tabular*}
 }
 
 \newcommand{\twentyitem}[4]{%
-	#1&\parbox[t]{0.83\textwidth}{%
-		\textbf{#2}%
-		\hfill%
-		{\footnotesize#3}\\%
-		#4\vspace{\parsep}%
+	\sectiontitlefont{#1}&\parbox[t]{0.83\textwidth}{%
+		\headingfont{#2}\\%
+		\sectiontitlefont{#3}\\%
+		\color{gray}\bodyfont{#4}\vspace{\parsep}%
 	}\\
 }
+
 
 %----------------------------------------------------------------------------------------
 %	 SMALL LIST ENVIRONMENT
