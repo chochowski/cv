@@ -67,7 +67,7 @@
 
 \newcommand{\sidelineseparator}[1]{\vspace{8pt}{\begin{center} \rule[0.15\baselineskip]{#1}{0.5pt}\end{center}}}
 
-\newcommand{\lineseparator}{\vspace{8pt}\noindent\rule[0.5ex]{\linewidth}{1pt}\vspace{8pt}}
+\newcommand{\lineseparator}{\vspace{8pt}\noindent{\color{maingray}\rule[0.5ex]{\linewidth}{1pt}}}
 
 % Define custom commands for CV info
 \newcommand{\cvdate}[1]{\renewcommand{\cvdate}{#1}}
@@ -86,16 +86,31 @@
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 % Command for printing skill progress bars
-\newcommand\skills[1]{ 
-	\renewcommand{\skills}{
-		\begin{tikzpicture}
-			\foreach [count=\i] \x/\y in {#1}{
-				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-				\node [above right] at (0,\i+0.4) {\x};
-			}
-		\end{tikzpicture}
-	}
+%\newcommand\skills[1]{ 
+%	\renewcommand{\skills}{
+%		\begin{tikzpicture}
+%			\foreach [count=\i] \x/\y in {#1}{
+%				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
+%				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
+%				\node [above right] at (0,\i+0.4) {\x};
+%			}
+%		\end{tikzpicture}
+%	}
+%}
+\newcommand\skills[2]{ 
+	\begin{tikzpicture}[style={text width=1.5cm}]
+	%	\node[left] at (0,0) {PROFESSIONAL SKILLS}
+		\foreach [count=\i] \x/\y in {#1}{
+			\draw[fill=maingray,maingray] (0,\i*0.5) rectangle (4,\i*0.5+0.2);
+			\draw[fill=white,gray](0,\i*0.5) rectangle (\y,\i*0.5+0.2);
+			\node [left] at (0,\i*0.5+0.1) {\x};
+		}
+		\foreach [count=\i] \x/\y in {#2}{
+			\draw[fill=maingray,maingray] (6,\i*0.5) rectangle (10,\i*0.5+0.2);
+			\draw[fill=white,gray](6,\i*0.5) rectangle (6+\y,\i*0.5+0.2);
+			\node [left] at (6,\i*0.5+0.1) {\x};
+		}
+	\end{tikzpicture}
 }
 
 % Command for printing skills text
